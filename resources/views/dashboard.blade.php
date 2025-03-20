@@ -8,109 +8,107 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         /* Reset and base styles */
-        a, button, input, select, h1, h2, h3, h4, h5, * {
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            border: none;
-            text-decoration: none;
-            background: none;
-            -webkit-font-smoothing: antialiased;
         }
-        menu, ol, ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: #121246;
+            color: #fff;
         }
+
         .home-container {
             display: flex;
-            width: 1660px;
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             justify-content: center;
         }
+
         .home-page {
             background: #121246;
-            height: 832px;
+            height: 100vh;
             position: relative;
             overflow: hidden;
-            width: 1660px;
+            width: 100%;
             transition: width 0.3s ease-in-out;
         }
-        .home-page.nav-active {
-            width: 1351px;
-        }
+
         .rectangle-5 {
             background: #d4a373;
-            width: 1351px;
-            height: 98px;
+            width: 100%;
+            height: 80px;
             position: absolute;
-            left: 0px;
-            top: 0px;
+            left: 0;
+            top: 0;
             border-bottom: 2px solid #b5835a;
             z-index: 1;
         }
+
         .home-title {
             color: #121246;
             text-align: center;
             font-family: "Inter-Regular", sans-serif;
-            font-size: 40px;
+            font-size: 24px;
             font-weight: 600;
             position: absolute;
-            left: 588px;
-            top: 29px;
-            width: 174px;
-            height: 40px;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
             z-index: 2;
         }
+
         .trending {
             color: #d4a373;
             text-align: center;
             font-family: "Inter-Regular", sans-serif;
-            font-size: 36px;
+            font-size: 24px;
             font-weight: 400;
             position: absolute;
-            left: 150px;
-            top: 120px;
-            width: 248px;
+            left: 20px;
+            top: 100px;
         }
+
+        .trending2, .trending3 {
+            color: #d4a373;
+            text-align: center;
+            font-family: "Inter-Regular", sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            position: absolute;
+            top: 100px;
+        }
+
         .trending2 {
-            color: #d4a373;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 36px;
-            font-weight: 400;
-            position: absolute;
-            left: 551px;
-            top: 120px;
-            width: 248px;
+            left: 40%;
         }
+
         .trending3 {
-            color: #d4a373;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 36px;
-            font-weight: 400;
-            position: absolute;
-            left: 953px;
-            top: 120px;
-            width: 248px;
+            left: 70%;
         }
+
         /* Navigation styles */
         .navigation {
-            width: 309px;
+            width: 250px;
             background: #121246;
-            height: 832px;
-            position: relative;
-            transform: translateX(-309px);
+            height: 100vh;
+            position: fixed;
+            left: -250px;
             transition: transform 0.3s ease-in-out;
             z-index: 10;
         }
+
         .navigation.active {
-            transform: translateX(0);
+            transform: translateX(250px);
         }
+
         .menu-button {
-            position: absolute;
+            position: fixed;
             left: 20px;
             top: 20px;
             cursor: pointer;
@@ -120,48 +118,78 @@
             background: transparent;
             padding: 5px;
         }
+
         .menu-button:hover {
             color: #b5835a;
         }
+
         /* Book container styles */
         .book-container {
             display: flex;
-            justify-content: space-between;
-            width: 1351px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%;
             position: absolute;
-            top: 200px;
-            left: 0;
-            padding: 0 150px;
+            top: 150px;
+            padding: 0 20px;
         }
+
         .book-card {
-            width: 248px;
-            height: 282px;
+            width: 200px;
+            height: 250px;
             background: #712222;
-            border-radius: 29px;
+            border-radius: 15px;
             border: 1px solid #b5835a;
             overflow: hidden;
             transition: transform 0.2s;
+            margin: 10px;
         }
+
         .book-card:hover {
             transform: scale(1.05);
         }
+
         .book-card img {
-            width: 155px;
-            height: 238px;
+            width: 100%;
+            height: 180px;
             object-fit: cover;
             display: block;
-            margin: 15px auto 0;
-            border-radius: 10px;
+            margin: 0 auto;
+            border-radius: 10px 10px 0 0;
         }
+
         .book-card p {
             color: #d4a373;
             text-align: center;
             font-family: "Inter-Regular", sans-serif;
-            font-size: 16px;
+            font-size: 14px;
             padding: 10px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        @media (max-width: 768px) {
+            .home-title {
+                font-size: 20px;
+            }
+
+            .trending, .trending2, .trending3 {
+                font-size: 18px;
+            }
+
+            .book-card {
+                width: 150px;
+                height: 200px;
+            }
+
+            .book-card img {
+                height: 130px;
+            }
+
+            .book-card p {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
