@@ -7,175 +7,123 @@
     <title>Navigation - Grand Archives</title>
 
     <style>
-        /* Reset and base styles */
-        a, button, input, select, h1, h2, h3, h4, h5, * {
+        /* Reset styles */
+        * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            border: none;
-            text-decoration: none;
-            background: none;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        menu, ol, ul {
-            list-style-type: none;
             margin: 0;
             padding: 0;
         }
 
-        /* Navigation styles */
-        .component-1,
-        .component-1 * {
-            box-sizing: border-box;
-        }
+        /* Base navigation styles */
         .component-1 {
-            width: 309px;
+            width: 250px;
             height: 832px;
+            background: #121246;
             position: relative;
-            background: #121246; /* Matches homepage background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
         }
+
         .rectangle-3 {
-            width: 309px;
-            height: 844px;
             position: absolute;
-            left: 0px;
-            top: calc(50% - 422px); /* Adjusted from -428px to center within 832px */
-            background: rgba(52, 28, 28, 0.8); /* Dark overlay for contrast */
-            overflow: visible;
+            inset: 0;
+            background: rgba(52, 28, 28, 0.8);
+            z-index: 1;
         }
-        .home {
-            color: #ffffff;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            position: absolute;
-            right: 0%;
-            left: 0%;
-            width: 100%;
-            bottom: 53.37%;
-            top: 38.82%;
-            height: 7.81%;
-            line-height: 65px; /* Vertically centers text */
+
+        /* Logo styling */
+        .logo-1-removebg-preview-1 {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            z-index: 2;
         }
-        .profile {
-            color: #ffffff;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            position: absolute;
-            right: 0%;
-            left: 0%;
-            width: 100%;
-            bottom: 22.96%;
-            top: 69.23%;
-            height: 7.81%;
-            line-height: 65px;
-        }
-        .favorites {
-            color: #ffffff;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            position: absolute;
-            right: 0%;
-            left: 0%;
-            width: 100%;
-            bottom: 30.77%;
-            top: 61.42%;
-            height: 7.81%;
-            line-height: 65px;
-        }
-        .transaction {
-            color: #ffffff;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            position: absolute;
-            right: 0%;
-            left: 0%;
-            width: 100%;
-            bottom: 38.34%;
-            top: 53.85%;
-            height: 7.81%;
-            line-height: 65px;
-        }
-        .catalogs {
-            color: #ffffff;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            position: absolute;
-            right: 0%;
-            left: 0%;
-            width: 100%;
-            bottom: 46.15%;
-            top: 46.03%;
-            height: 7.81%;
-            line-height: 65px;
-        }
+
+        /* Title styling */
         .grand-archives {
             color: #ffffff;
             text-align: center;
             font-family: "JacquesFrancoisShadow-Regular", sans-serif;
             font-size: 36px;
             font-weight: 400;
-            position: absolute;
-            right: 0%;
-            left: 0%;
+            margin-bottom: 40px;
+            z-index: 2;
+        }
+
+        /* Navigation items */
+        .nav-item {
             width: 100%;
-            bottom: 65.87%;
-            top: 23.56%;
-            height: 10.58%;
-            line-height: 88px; /* Vertically centers text */
+            height: 65px;
+            position: relative;
+            z-index: 2;
         }
-        .logo-1-removebg-preview-1 {
-            width: 299px;
-            height: 299px;
-            position: absolute;
-            left: 5px;
-            top: -39px;
-            object-fit: cover;
-            aspect-ratio: 1;
-        }
+
         .nav-link {
-            color: #ffffff;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
             height: 100%;
-            transition: background-color 0.3s; /* Smooth hover effect */
+            color: #ffffff;
+            font-family: "Inter-Regular", sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
+
         .nav-link:hover {
-            background-color: rgba(181, 131, 90, 0.2); /* Subtle hover effect */
-            color: #d4a373; /* Matches homepage accents */
+            background-color: rgba(181, 131, 90, 0.2);
+            color: #d4a373;
+            transform: translateX(5px); /* Subtle movement on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-height: 832px) {
+            .component-1 {
+                height: 100vh;
+            }
+            
+            .logo-1-removebg-preview-1 {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .grand-archives {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            .nav-link {
+                font-size: 18px;
+                height: 50px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="component-1">
         <div class="rectangle-3"></div>
+        <img class="logo-1-removebg-preview-1" src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Grand Archives Logo" />
         <div class="grand-archives">GRAND ARCHIVES</div>
-        <div class="home">
-            <a href="{{ route('home') }}" class="nav-link">Home</a>
+        <div class="nav-item">
+            <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
         </div>
-        <div class="catalogs">
+        <div class="nav-item">
             <a href="{{ route('catalogs') }}" class="nav-link">Catalogs</a>
         </div>
-        <div class="transaction">
+        <div class="nav-item">
             <a href="{{ route('transaction') }}" class="nav-link">Transaction</a>
         </div>
-        <div class="favorites">
+        <div class="nav-item">
             <a href="{{ route('favorites') }}" class="nav-link">Favorites</a>
         </div>
-        <div class="profile">
-            <a href="{{ route('profile') }}" class="nav-link">Profile</a>
+        <div class="nav-item">
+            <a href="{{ route('user.profile') }}" class="nav-link">Profile</a>
         </div>
-        <img class="logo-1-removebg-preview-1" src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Grand Archives Logo" />
     </div>
 </body>
 </html>

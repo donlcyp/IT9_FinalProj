@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    // ... (keep your existing methods: index, create, store) ...
+    public function index()
+    {
+        $books = Book::all();
+        return view('dashboard', compact('books'));
+    }
+
 
     public function favorites()
     {
