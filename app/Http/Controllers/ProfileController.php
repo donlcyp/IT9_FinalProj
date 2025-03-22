@@ -8,12 +8,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Borrowing; // Ensure Borrowing model is imported
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display the user's profile.
      */
+    public function index(Request $request): View
+    {
+        $totalBooksBorrowed = Borrowing::where('user_id', $request->user()->id)->count();
+        $currentlyBorrowed = Borrowing::where('user_id', $request->user()->id)->whereNull('returned_at')->count();
+        $overdueBooks = Borrowing::where('user_id', $request->user()->id)
+            ->where('due_date', '<', now())
+            ->whereNull('returned_at')
+            ->count(); // Calculate overdue books
+        $finesDue = $overdueBooks * 5; // Assuming a fine of $5 per overdue book
+
+        return view('profile', [
+            'totalBooksBorrowed' => $totalBooksBorrowed,
+            'currentlyBorrowed' => $currentlyBorrowed,
+            'overdueBooks' => $overdueBooks,
+            'finesDue' => $finesDue, // Pass the fines due variable
+            'user' => $request->user(),
+        ]);
+    }
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [

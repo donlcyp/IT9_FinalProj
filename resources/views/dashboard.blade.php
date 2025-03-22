@@ -19,31 +19,68 @@
             font-family: Arial, sans-serif;
             background: #121246;
             color: #fff;
+            overflow-x: hidden;
         }
 
         .home-container {
             display: flex;
             width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
+            min-height: 100vh;
             position: relative;
-            justify-content: center;
         }
 
-        .home-page {
+        /* Navigation styles */
+        .navigation {
+            width: 250px;
             background: #121246;
             height: 100vh;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            transition: width 0.3s ease-in-out;
+            position: fixed;
+            left: -250px; /* Hidden by default */
+            top: 0;
+            transition: left 0.3s ease-in-out;
+            z-index: 10;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navigation.active {
+            left: 0; /* Show when active */
+        }
+
+        .menu-button {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            cursor: pointer;
+            z-index: 20;
+            color: #121246;
+            font-size: 28px;
+            background: transparent;
+            border: none;
+            transition: color 0.2s;
+        }
+
+        .menu-button:hover {
+            color: #b5835a;
+        }
+
+        /* Main content styles */
+        .home-page {
+            flex: 1;
+            background: #121246;
+            min-height: 100vh;
+            padding-left: 60px; /* Space for menu button */
+            transition: padding-left 0.3s ease-in-out;
+        }
+
+        .home-page.nav-active {
+            padding-left: 310px; /* Shift content when nav is active */
         }
 
         .rectangle-5 {
             background: #d4a373;
             width: 100%;
             height: 80px;
-            position: absolute;
+            position: fixed;
             left: 0;
             top: 0;
             border-bottom: 2px solid #b5835a;
@@ -54,107 +91,54 @@
             color: #121246;
             text-align: center;
             font-family: "Inter-Regular", sans-serif;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
-            position: absolute;
-            left: 50%;
-            top: 20px;
-            transform: translateX(-50%);
+            position: relative;
+            top: 25px;
             z-index: 2;
         }
 
+        /* Section headers */
+        .trending, .trending2, .trending3 {
+            color: #d4a373;
+            font-family: "Inter-Regular", sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin: 20px 0 10px;
+            padding-left: 20px;
+        }
+
         .trending {
-            color: #d4a373;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 24px;
-            font-weight: 400;
-            position: absolute;
-            left: 20px;
-            top: 100px;
-        }
-
-        .trending2, .trending3 {
-            color: #d4a373;
-            text-align: center;
-            font-family: "Inter-Regular", sans-serif;
-            font-size: 24px;
-            font-weight: 400;
-            position: absolute;
-            top: 100px;
-        }
-
-        .trending2 {
-            left: 40%;
-        }
-
-        .trending3 {
-            left: 70%;
-        }
-
-        /* Navigation styles */
-        .navigation {
-            width: 250px;
-            background: #121246;
-            height: 100vh;
-            position: fixed;
-            left: -250px;
-            transition: transform 0.3s ease-in-out;
-            z-index: 10;
-        }
-
-        .navigation.active {
-            transform: translateX(250px);
-        }
-
-        .menu-button {
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            cursor: pointer;
-            z-index: 20;
-            color: #d4a373;
-            font-size: 24px;
-            background: transparent;
-            padding: 5px;
-        }
-
-        .menu-button:hover {
-            color: #b5835a;
+            margin-top: 120px; /* Space below header */
         }
 
         /* Book container styles */
         .book-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            width: 100%;
-            position: absolute;
-            top: 150px;
-            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
         }
 
         .book-card {
-            width: 200px;
+            width: 100%;
             height: 250px;
             background: #712222;
             border-radius: 15px;
             border: 1px solid #b5835a;
             overflow: hidden;
-            transition: transform 0.2s;
-            margin: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .book-card:hover {
             transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .book-card img {
             width: 100%;
             height: 180px;
             object-fit: cover;
-            display: block;
-            margin: 0 auto;
             border-radius: 10px 10px 0 0;
         }
 
@@ -169,17 +153,29 @@
             text-overflow: ellipsis;
         }
 
+        /* Responsive adjustments */
         @media (max-width: 768px) {
+            .home-page {
+                padding-left: 50px;
+            }
+
+            .home-page.nav-active {
+                padding-left: 260px;
+            }
+
             .home-title {
-                font-size: 20px;
+                font-size: 22px;
             }
 
             .trending, .trending2, .trending3 {
-                font-size: 18px;
+                font-size: 20px;
+            }
+
+            .book-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
 
             .book-card {
-                width: 150px;
                 height: 200px;
             }
 
@@ -191,12 +187,27 @@
                 font-size: 12px;
             }
         }
+
+        @media (max-width: 480px) {
+            .navigation {
+                width: 200px;
+            }
+
+            .home-page.nav-active {
+                padding-left: 220px;
+            }
+
+            .menu-button {
+                left: 10px;
+                top: 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="home-container">
         <div class="navigation">
-            @include('partials.navigation')
+            @include('layouts.navigation')
         </div>
         <div class="home-page">
             <button class="menu-button">
@@ -205,8 +216,6 @@
             <div class="rectangle-5"></div>
             <div class="home-title">DASHBOARD</div>
             <div class="trending">Trending</div>
-            <div class="trending2">Top Books</div>
-            <div class="trending3">Most Read</div>
             <div class="book-container">
                 @foreach($books as $book)
                     <div class="book-card">
@@ -214,6 +223,14 @@
                         <p>{{ $book->title }}</p>
                     </div>
                 @endforeach
+            </div>
+            <div class="trending2">Top Books</div>
+            <div class="book-container">
+                <!-- Add books here -->
+            </div>
+            <div class="trending3">Most Read</div>
+            <div class="book-container">
+                <!-- Add books here -->
             </div>
         </div>
     </div>
