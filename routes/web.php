@@ -26,15 +26,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/books', [BookController::class, 'store'])->name('books.store');
     Route::get('/favorites', [BookController::class, 'favorites'])->name('favorites');
     
-    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
     // Home route (if distinct from dashboard)
     Route::get('/home', function () {
-    return redirect()->route('dashboard');
-})->name('home');
+        return redirect()->route('dashboard');
+    })->name('home');
     
-    // Catalog route
+    Route::get('/catalogs/books', [CatalogController::class, 'showCrimeFiction'])->name('catalog.show.crime-fiction');
+    Route::get('/catalogs/selection', [CatalogController::class, 'selection'])->name('catalog.selection'); // Catalog selection route
+    Route::get('/catalogs/{genre}', [CatalogController::class, 'show'])->name('catalog.show'); // General catalog show route
     Route::get('/catalogs', [CatalogController::class, 'index'])->name('catalogs');
+
+    // New route for borrowing a book
+    Route::get('/books/borrow/{id}', [CatalogController::class, 'borrow'])->name('books.borrow');
     
     // Transaction route
     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction');

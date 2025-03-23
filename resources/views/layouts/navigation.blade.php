@@ -29,7 +29,7 @@
         .rectangle-3 {
             position: absolute;
             inset: 0;
-            background: rgba(52, 28, 28, 0.8);
+            background: #121246;
             z-index: 1;
         }
 

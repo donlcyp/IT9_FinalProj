@@ -265,7 +265,7 @@
                 <div class="genre-card"><div>Romance</div></div>
                 <div class="genre-card"><div>Thriller</div></div>
                 <div class="genre-card"><div>Comedy</div></div>
-                <div class="genre-card"><div>Crime Fiction</div></div>
+                <div class="genre-card"><a href="{{ route('catalog.show.crime-fiction') }}"><div>Crime Fiction</div></a></div>
                 <div class="genre-card"><div>Western Fiction</div></div>
                 <div class="genre-card"><div>Biography</div></div>
                 <div class="genre-card"><div>Non-Fiction</div></div>
