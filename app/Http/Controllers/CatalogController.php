@@ -49,5 +49,4 @@ class CatalogController extends Controller
         // Return the view for borrowing the book, passing the book details
         return view('catalogs.book-borrow', compact('book'));
     }
-
 }
