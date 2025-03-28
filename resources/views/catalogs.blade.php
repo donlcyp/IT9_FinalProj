@@ -116,6 +116,7 @@
             display: flex;
             align-items: center;
             padding: 0 15px;
+            position: relative;
         }
 
         .search-input {
@@ -125,6 +126,7 @@
             font-family: "Inter-Regular", sans-serif;
             font-size: 16px;
             outline: none;
+            border: none;
         }
 
         .magnifying-1 {
@@ -141,21 +143,6 @@
             gap: 20px;
             padding: 0 20px;
             margin-bottom: 40px;
-            max-height: 60vh; /* Limit height for scrolling */
-            overflow-y: auto; /* Enable vertical scrolling */
-        }
-
-        .genre-grid::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .genre-grid::-webkit-scrollbar-track {
-            background: #121246;
-        }
-
-        .genre-grid::-webkit-scrollbar-thumb {
-            background: #b5835a;
-            border-radius: 4px;
         }
 
         .genre-card {
@@ -174,7 +161,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .genre-card div {
+        .genre-card a {
             color: #000000;
             text-align: center;
             font-family: "Inter-Regular", sans-serif;
@@ -184,6 +171,56 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-decoration: none;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            font-family: "Inter-Regular", sans-serif;
+            font-size: 14px;
+            color: #d4a373;
+        }
+
+        .pagination a, .pagination span {
+            color: #d4a373;
+            padding: 4px 8px;
+            text-decoration: none;
+            margin: 0 4px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #b5835a;
+            color: #121246;
+        }
+
+        .pagination .current {
+            background-color: #b5835a;
+            color: #121246;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .pagination .disabled {
+            color: #b5835a;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .chevron {
+            font-size: 18px;
+            vertical-align: middle;
         }
 
         /* Responsive adjustments */
@@ -206,14 +243,25 @@
 
             .genre-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                max-height: 50vh;
             }
 
             .genre-card {
                 height: 70px;
             }
 
-            .genre-card div {
+            .genre-card a {
+                font-size: 16px;
+            }
+
+            .pagination {
+                font-size: 12px;
+            }
+
+            .pagination a, .pagination span {
+                padding: 3px 6px;
+            }
+
+            .pagination .chevron {
                 font-size: 16px;
             }
         }
@@ -236,8 +284,16 @@
                 max-width: 300px;
             }
 
-            .genre-grid {
-                max-height: 40vh;
+            .pagination {
+                font-size: 10px;
+            }
+
+            .pagination a, .pagination span {
+                padding: 2px 4px;
+            }
+
+            .pagination .chevron {
+                font-size: 14px;
             }
         }
     </style>
@@ -254,57 +310,24 @@
             <div class="rectangle-5"></div>
             <div class="catalogs">CATALOGS</div>
             <div class="search-container">
-                <div class="rectangle-7">
-                    <input type="text" class="search-input" placeholder="Search genres..." />
-                    <img class="magnifying-1" src="{{ asset('images/magnifying-10.png') }}" alt="Search" />
-                </div>
+                <form method="GET" action="{{ route('catalogs') }}" class="rectangle-7">
+                    <input type="text" name="search" class="search-input" placeholder="Search genres..." value="{{ request('search') }}" />
+                    <button type="submit" style="background: none; border: none; padding: 0;">
+                        <img class="magnifying-1" src="{{ asset('images/magnifying-10.png') }}" alt="Search" />
+                    </button>
+                </form>
             </div>
             <div class="genre-grid">
-                <div class="genre-card"><div>Fantasy</div></div>
-                <div class="genre-card"><div>Sci-fi</div></div>
-                <div class="genre-card"><div>Romance</div></div>
-                <div class="genre-card"><div>Thriller</div></div>
-                <div class="genre-card"><div>Comedy</div></div>
-                <div class="genre-card"><a href="{{ route('catalog.show.crime-fiction') }}"><div>Crime Fiction</div></a></div>
-                <div class="genre-card"><div>Western Fiction</div></div>
-                <div class="genre-card"><div>Biography</div></div>
-                <div class="genre-card"><div>Non-Fiction</div></div>
-                <div class="genre-card"><div>Historical Fiction</div></div>
-                <div class="genre-card"><div>Mystery</div></div>
-                <div class="genre-card"><div>Horror</div></div>
-                <div class="genre-card"><div>Adventure</div></div>
-                <div class="genre-card"><div>Young Adult</div></div>
-                <div class="genre-card"><div>Self-Help</div></div>
-                <div class="genre-card"><div>Classics</div></div>
-                <div class="genre-card"><div>Contemporary Fiction</div></div>
-                <div class="genre-card"><div>Dystopian</div></div>
-                <div class="genre-card"><div>Erotica</div></div>
-                <div class="genre-card"><div>Graphic Novels</div></div>
-                <div class="genre-card"><div>Literary Fiction</div></div>
-                <div class="genre-card"><div>Magical Realism</div></div>
-                <div class="genre-card"><div>Paranormal</div></div>
-                <div class="genre-card"><div>Poetry</div></div>
-                <div class="genre-card"><div>Psychological Thriller</div></div>
-                <div class="genre-card"><div>Satire</div></div>
-                <div class="genre-card"><div>Science</div></div>
-                <div class="genre-card"><div>Spirituality</div></div>
-                <div class="genre-card"><div>Sports</div></div>
-                <div class="genre-card"><div>Travel</div></div>
-                <div class="genre-card"><div>True Crime</div></div>
-                <div class="genre-card"><div>Urban Fantasy</div></div>
-                <div class="genre-card"><div>Women's Fiction</div></div>
-                <div class="genre-card"><div>Children's Literature</div></div>
-                <div class="genre-card"><div>Middle Grade</div></div>
-                <div class="genre-card"><div>Cookbooks</div></div>
-                <div class="genre-card"><div>Business</div></div>
-                <div class="genre-card"><div>Technology</div></div>
-                <div class="genre-card"><div>Health & Wellness</div></div>
-                <div class="genre-card"><div>Philosophy</div></div>
-                <div class="genre-card"><div>Political Fiction</div></div>
-                <div class="genre-card"><div>Short Stories</div></div>
-                <div class="genre-card"><div>Essays</div></div>
-                <div class="genre-card"><div>Memoirs</div></div>
-                <div class="genre-card"><div>Autobiographies</div></div>
+                @forelse ($genres as $genre)
+                    <div class="genre-card">
+                        <a href="{{ route('genre.show', $genre->id) }}">{{ $genre->name }}</a>
+                    </div>
+                @empty
+                    <div class="text-center text-gray-400">No genres found.</div>
+                @endforelse
+            </div>
+            <div class="pagination">
+                {{ $genres->links('vendor.pagination.custom') }}
             </div>
         </div>
     </div>
@@ -317,22 +340,6 @@
             menuButton.addEventListener('click', function() {
                 navigation.classList.toggle('active');
                 catalogPage.classList.toggle('nav-active');
-            });
-
-            // Basic search functionality
-            const searchInput = document.querySelector('.search-input');
-            const genreCards = document.querySelectorAll('.genre-card');
-
-            searchInput.addEventListener('input', function() {
-                const searchTerm = searchInput.value.toLowerCase();
-                genreCards.forEach(card => {
-                    const genreName = card.querySelector('div').textContent.toLowerCase();
-                    if (genreName.includes(searchTerm)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
             });
         });
     </script>

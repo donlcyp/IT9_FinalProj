@@ -31,10 +31,9 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('dashboard');
     })->name('home');
     
-    Route::get('/catalogs/books', [CatalogController::class, 'showCrimeFiction'])->name('catalog.show.crime-fiction');
     Route::get('/catalogs/selection', [CatalogController::class, 'selection'])->name('catalog.selection'); // Catalog selection route
-    Route::get('/catalogs/{genre}', [CatalogController::class, 'show'])->name('catalog.show'); // General catalog show route
-    Route::get('/catalogs', [CatalogController::class, 'index'])->name('catalogs');
+    Route::get('/catalogs/{genre}', [CatalogController::class, 'show'])->name('genre.show')->middleware('auth'); // General catalog show route
+    Route::get('/catalogs', [CatalogController::class, 'index'])->name('catalogs')->middleware('auth');
 
     // New route for borrowing a book
     Route::get('/books/borrow/{id}', [CatalogController::class, 'borrow'])->name('books.borrow');

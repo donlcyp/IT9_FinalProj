@@ -2,23 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Models\Book;
 
 class CatalogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Logic to show all books
-        $books = Book::all(); // Fetch all books from the database
-        return view('catalogs', compact('books')); // Return the view with the books data
+        $search = $request->input('search');
+
+        $genres = Genre::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->orderBy('name', 'asc')
+            ->paginate(18);
+
+        return view('catalogs', compact('genres'));
     }
 
-
-    public function showCrimeFiction()
+    public function show(Request $request, Genre $genre)
     {
-        $books = Book::all(); // Fetch all books from the database
-        return view('catalogs.books', compact('books'));
+        $search = $request->input('search');
+
+        $books = $genre->books()
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('author', 'like', "%{$search}%");
+            })
+            ->get();
+
+        return view('genre.show', compact('genre', 'books'));
     }
 
     public function borrow($id)

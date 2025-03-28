@@ -1,3 +1,4 @@
+<!-- resources/views/layouts/navigation.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +18,7 @@
         /* Base navigation styles */
         .component-1 {
             width: 250px;
-            height: 832px;
+            height: 100vh; /* Ensure it takes full viewport height */
             background: #121246;
             position: relative;
             display: flex;
@@ -81,6 +82,12 @@
             transform: translateX(5px); /* Subtle movement on hover */
         }
 
+        /* Active link styling */
+        .nav-link.active {
+            background-color: #d4a373;
+            color: #121246;
+        }
+
         /* Responsive adjustments */
         @media (max-height: 832px) {
             .component-1 {
@@ -110,19 +117,19 @@
         <img class="logo-1-removebg-preview-1" src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Grand Archives Logo" />
         <div class="grand-archives">GRAND ARCHIVES</div>
         <div class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
+            <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">Home</a>
         </div>
         <div class="nav-item">
-            <a href="{{ route('catalogs') }}" class="nav-link">Catalogs</a>
+            <a href="{{ route('catalogs') }}" class="nav-link {{ request()->routeIs('catalogs') ? 'active' : '' }}">Catalogs</a>
         </div>
         <div class="nav-item">
-            <a href="{{ route('transaction') }}" class="nav-link">Transaction</a>
+            <a href="{{ route('transaction') }}" class="nav-link {{ request()->routeIs('transaction') ? 'active' : '' }}">Transaction</a>
         </div>
         <div class="nav-item">
-            <a href="{{ route('favorites') }}" class="nav-link">Favorites</a>
+            <a href="{{ route('favorites') }}" class="nav-link {{ request()->routeIs('favorites') ? 'active' : '' }}">Favorites</a>
         </div>
         <div class="nav-item">
-            <a href="{{ route('user.profile') }}" class="nav-link">Profile</a>
+            <a href="{{ route('user.profile') }}" class="nav-link {{ request()->routeIs('user.profile') ? 'active' : '' }}">Profile</a>
         </div>
     </div>
 </body>
