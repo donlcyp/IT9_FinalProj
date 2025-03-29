@@ -143,7 +143,7 @@
             min-height: 100px;
         }
 
-        .form-group img {
+        .form-group img.profile-picture {
             border-radius: 85.5px;
             width: 171px;
             height: 171px;
@@ -212,7 +212,7 @@
                 padding: 20px;
             }
 
-            .form-group img {
+            .form-group img.profile-picture {
                 width: 120px;
                 height: 120px;
                 border-radius: 60px;
@@ -237,7 +237,7 @@
                 max-width: 400px;
             }
 
-            .form-group img {
+            .form-group img.profile-picture {
                 width: 100px;
                 height: 100px;
                 border-radius: 50px;
@@ -269,7 +269,7 @@
                     <!-- Profile Picture -->
                     <div class="form-group">
                         <label for="profile_picture">Profile Picture</label>
-                        <img src="{{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}" alt="Current Profile Picture" />
+                        <img src="{{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}" alt="Current Profile Picture" class="profile-picture" />
                         <input type="file" name="profile_picture" id="profile_picture" accept="image/*">
                         @error('profile_picture')
                             <span class="error-message">{{ $message }}</span>
@@ -315,7 +315,7 @@
                     <!-- Buttons -->
                     <div class="button-group">
                         <button type="submit" class="save-button">Save Changes</button>
-                        <a href="{{ route('profile') }}" class="cancel-button">Cancel</a>
+                        <a href="{{ route('user.profile') }}" class="cancel-button">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -334,4 +334,4 @@
         });
     </script>
 </body>
-</html> 
+</html>

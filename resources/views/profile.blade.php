@@ -287,6 +287,15 @@
                 gap: 10px;
             }
         }
+        .images-1-1 {
+            border-radius: 85.5px;
+            width: 171px;
+            height: 171px;
+            object-fit: cover;
+            z-index: 5;
+            position: relative;
+            display: block; /* Ensure it’s visible */
+        }
     </style>
 </head>
 <body>
@@ -301,7 +310,23 @@
             <div class="rectangle-5"></div>
             <div class="profile">PROFILE</div>
             <div class="profile-content">
-                <img class="images-1-1" src="{{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}" alt="Profile Picture" />
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <!-- Debug output -->
+                <div style="color: #121246;">Profile picture path: {{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}</div>
+                <img class="images-1-1" src="{{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}" alt="Profile Picture" onerror="this.src='https://placehold.co/171x171';" />
                 <div class="dreamy-bull">{{ Auth::user()->name }}</div>
                 <div class="profile-info">Contact: {{ Auth::user()->contact_no ?? 'Not provided' }}</div>
                 <div class="profile-info">Email: {{ Auth::user()->email }}</div>

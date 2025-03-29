@@ -339,49 +339,49 @@
             <div class="book-grid">
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 1]) }}">
-                        <img src="{{ asset('images/the-great-adventures-of-sherlock-holmes-1-10.png') }}" alt="Sherlock Holmes">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Sherlock Holmes">
                     </a>
                 </div>
 
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 2]) }}">
-                        <img src="{{ asset('images/the-adventures-of-arsene-lupin-gentleman-thief-10.png') }}" alt="Arsene Lupin">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Arsene Lupin">
                     </a>
                 </div>
 
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 3]) }}">
-                        <img src="{{ asset('images/a-56-cf-750-558-a-4812-8010-68911-e-06-c-7-eb-10.png') }}" alt="Crime Fiction Book">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Crime Fiction Book">
                     </a>
                 </div>
 
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 4]) }}">
-                        <img src="{{ asset('images/_91-d-dv-9-w-oc-fl-ac-uf-1000-1000-ql-80-10.png') }}" alt="Crime Fiction Book">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Crime Fiction Book">
                     </a>
                 </div>
 
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 5]) }}">
-                        <img src="{{ asset('images/ars-ne-lupin-contre-herlock-sholm-s-10.png') }}" alt="Arsene vs Sherlock">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Arsene vs Sherlock">
                     </a>
                 </div>
 
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 6]) }}">
-                        <img src="{{ asset('images/_220-px-mystery-january-1934-10.png') }}" alt="Mystery Magazine">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Mystery Magazine">
                     </a>
                 </div>
 
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 7]) }}">
-                        <img src="{{ asset('images/i-511101288-witness-to-murder-800-x-1200-web-sample-10.png') }}" alt="Witness to Murder">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Witness to Murder">
                     </a>
                 </div>
 
                 <div class="book-item">
                     <a href="{{ route('books.borrow', ['id' => 8]) }}">
-                        <img src="{{ asset('images/_220-px-arsene-lupin-1907-french-edition-10.png') }}" alt="Arsene Lupin 1907">
+                        <img src="{{ asset('images/logo-1-removebg-preview-10.png') }}" alt="Arsene Lupin 1907">
                     </a>
                 </div>
 

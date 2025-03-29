@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -39,27 +40,32 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'contact_no' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:500',
-            'profile_picture' => 'nullable|image|max:2048', // Max 2MB
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+                'contact_no' => 'nullable|string|max:20',
+                'address' => 'nullable|string|max:500',
+                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+            ]);
 
-        $data = $request->only(['name', 'email', 'contact_no', 'address']);
+            $data = $request->only(['name', 'email', 'contact_no', 'address']);
 
-        if ($request->hasFile('profile_picture')) {
-            // Delete old picture if it exists and isn't the default
-            if ($user->profile_picture && $user->profile_picture !== 'images-1-10.png') {
-                Storage::delete('public/images/' . $user->profile_picture);
+            if ($request->hasFile('profile_picture')) {
+                // Delete old picture if it exists and isn't the default
+                if ($user->profile_picture && $user->profile_picture !== 'images-1-10.png') {
+                    Storage::delete('public/images/' . $user->profile_picture);
+                }
+                $data['profile_picture'] = $request->file('profile_picture')->store('images', 'public');
             }
-            $path = $request->file('profile_picture')->store('public/images');
-            $data['profile_picture'] = basename($path);
+
+            $user->update($data);
+            Log::info('Profile picture updated: ' . $data['profile_picture']);
+            return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation errors: ' . json_encode($e->errors()));
+            return redirect()->back()->withErrors($e->errors())->withInput();
         }
-
-        $user->update($data);
-
-        return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
     }
 }

@@ -140,7 +140,7 @@
             border: 2px solid #b5835a;  
             background: #ded9c3; 
             overflow: visible;
-            z-index: 1; /* Ensure header stays below text */
+            z-index: 1;
         }
         .grand-archives2 {
             color: #121246;
@@ -153,17 +153,52 @@
             top: 18px;
             width: 455px;
             height: 49px;
-            z-index: 2; /* Bring text above header */
+            z-index: 2;
+        }
+        /* New styles for remember me checkbox */
+        .remember-me-container {
+            position: absolute;
+            left: 881px;
+            top: 570px;
+            display: flex;
+            align-items: center;
+            width: 304px;
+        }
+        .remember-me-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .remember-me-label {
+            color: #121246;
+            font-family: "Inter-Regular", sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+        }
+        /* New logo class */
+        .logo {
+            position: absolute;
+            left: 50px;
+            top: 20px;
+            width: 100px;
+            height: auto;
+            z-index: 3; /* Ensure it’s above other elements */
         }
     </style>
 </head>
 <body>  
     <div class="log-in-page">
         <div class="frame-rectangle-3"></div>
+        <img src="{{ asset('images/logo1.png') }}" alt="Logo" class="logo"/>
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <input type="email" name="email" class="textbox email-textbox" placeholder="Email" required>
             <input type="password" name="password" class="textbox password-textbox" placeholder="Password" required>
+            <div class="remember-me-container">
+                <input type="checkbox" name="remember" id="remember" class="remember-me-checkbox">
+                <label for="remember" class="remember-me-label">Remember me</label>
+            </div>
             <div class="component-2">
                 <div class="rectangle-6"></div>
                 <button type="submit" class="log-in-btn">LOG-IN</button>

@@ -1,18 +1,14 @@
 <?php
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-use App\Models\Borrowing;
+use App\Models\Borrowing; // Import the Borrowing model
 
 class User extends Authenticatable
 {
-    public function borrowings()
-    {
-        return $this->hasMany(Borrowing::class);
-    }
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -25,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'contact_no', // Add this line
+        'address',    // Add this line
+        'profile_picture', // Add this line
     ];
 
     /**
@@ -38,12 +37,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    /**
+     * Get the borrowings for the user.
+     */
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
+    }
 }

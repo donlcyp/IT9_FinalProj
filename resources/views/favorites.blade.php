@@ -270,7 +270,7 @@
             <div class="search-container">
                 <div class="rectangle-7">
                     <input type="text" class="search-input" placeholder="Search favorites..." />
-                    <img class="magnifying-1" src="{{ asset('images/magnifying-10.png') }}" alt="Search" />
+                    <img class="magnifying-1" src="{{ asset('images/logo1.png') }}" alt="Search" />
                 </div>
             </div>
             <div class="favorites-content">
