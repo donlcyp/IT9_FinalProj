@@ -70,7 +70,7 @@
             flex: 1;
             background: #121246;
             min-height: 100vh;
-            padding-left: 60px;
+            padding-left: 0px;
             transition: padding-left 0.3s ease-in-out;
             overflow-y: auto; /* Enable vertical scrolling */
         }

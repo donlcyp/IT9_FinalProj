@@ -2,79 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
-use App\Models\Borrowing; // Ensure Borrowing model is imported
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile.
-     */
-    public function index(Request $request): View
+    public function index()
     {
-        $totalBooksBorrowed = Borrowing::where('user_id', $request->user()->id)->count();
-        $currentlyBorrowed = Borrowing::where('user_id', $request->user()->id)->whereNull('returned_at')->count();
-        $overdueBooks = Borrowing::where('user_id', $request->user()->id)
-            ->where('due_date', '<', now())
-            ->whereNull('returned_at')
-            ->count(); // Calculate overdue books
-        $finesDue = $overdueBooks * 5; // Assuming a fine of $5 per overdue book
+        $user = Auth::user();
+        $totalBooksBorrowed = $user->borrowings()->count();
+        $currentlyBorrowed = $user->borrowings()->whereNull('returned_at')->count();
+        $overdueBooks = $user->borrowings()->whereNull('returned_at')->where('due_date', '<', now())->count();
+        $finesDue = $overdueBooks * 0.50; // Example: $0.50 per overdue book
 
-        return view('profile', [
-            'totalBooksBorrowed' => $totalBooksBorrowed,
-            'currentlyBorrowed' => $currentlyBorrowed,
-            'overdueBooks' => $overdueBooks,
-            'finesDue' => $finesDue, // Pass the fines due variable
-            'user' => $request->user(),
-        ]);
+        return view('profile', compact('totalBooksBorrowed', 'currentlyBorrowed', 'overdueBooks', 'finesDue'));
+    }
+    
+    public function show()
+    {
+        $user = Auth::user();
+        $totalBooksBorrowed = $user->borrowings()->count();
+        $currentlyBorrowed = $user->borrowings()->whereNull('returned_at')->count();
+        $overdueBooks = $user->borrowings()->whereNull('returned_at')->where('due_date', '<', now())->count();
+        $finesDue = $overdueBooks * 0.50; // Example: $0.50 per overdue book
+
+        return view('profile', compact('totalBooksBorrowed', 'currentlyBorrowed', 'overdueBooks', 'finesDue'));
     }
 
-    public function edit(Request $request): View
+    public function edit()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        return view('profile.edit');
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'contact_no' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:500',
+            'profile_picture' => 'nullable|image|max:2048', // Max 2MB
+        ]);
+
+        $data = $request->only(['name', 'email', 'contact_no', 'address']);
+
+        if ($request->hasFile('profile_picture')) {
+            // Delete old picture if it exists and isn't the default
+            if ($user->profile_picture && $user->profile_picture !== 'images-1-10.png') {
+                Storage::delete('public/images/' . $user->profile_picture);
+            }
+            $path = $request->file('profile_picture')->store('public/images');
+            $data['profile_picture'] = basename($path);
         }
 
-        $request->user()->save();
+        $user->update($data);
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
     }
 }
