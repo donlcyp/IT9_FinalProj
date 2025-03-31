@@ -25,7 +25,7 @@
 
         /* Sign-up page styles */
         .sign-up-page {
-            background: #f9f8f4;
+            background: #f0f0e4;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
@@ -127,16 +127,6 @@
             left: 82px;
             top: 28px;
         }
-        .logo-1-removebg-preview-3 {
-            width: 100%;
-            max-width: 500px; /* Reduced max size for better fit */
-            height: auto;
-            position: absolute;
-            left: 20px;
-            bottom: 20px; /* Moved to bottom to avoid overlap */
-            object-fit: contain;
-            opacity: 0.8; /* Slightly faded for background effect */
-        }
         .login-link-container {
             width: 100px;
             height: 30px;
@@ -207,6 +197,14 @@
             .logo-1-removebg-preview-3 {
                 max-width: 200px;
             }
+        }
+        .logo {
+            position: absolute;
+            left: 640px;
+            top: 125px;
+            width: 60px;
+            height: auto;
+            z-index: 3; /* Ensure it’s above other elements */
         }
     </style>
 </head>

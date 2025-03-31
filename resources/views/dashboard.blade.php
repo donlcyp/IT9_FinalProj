@@ -32,7 +32,7 @@
         /* Navigation styles */
         .navigation {
             width: 250px;
-            background: #121246;
+            background: #ded9c3;
             height: 100vh;
             position: fixed;
             left: -250px; /* Hidden by default */
@@ -60,13 +60,13 @@
         }
 
         .menu-button:hover {
-            color: #b5835a;
+            color: #121246;
         }
 
         /* Main content styles */
         .home-page {
             flex: 1;
-            background: #121246;
+            background: #f0f0e4;
             min-height: 100vh;
             padding-left: 60px; /* Space for menu button */
             transition: padding-left 0.3s ease-in-out;
@@ -77,7 +77,7 @@
         }
 
         .rectangle-5 {
-            background: #d4a373;
+            background: #ded9c3 ;
             width: 100%;
             height: 80px;
             position: fixed;
@@ -100,7 +100,7 @@
 
         /* Section headers */
         .trending, .trending2, .trending3 {
-            color: #d4a373;
+            color: #121246;
             font-family: "Inter-Regular", sans-serif;
             font-size: 24px;
             font-weight: 400;
@@ -123,7 +123,7 @@
         .book-card {
             width: 100%;
             height: 250px;
-            background: #712222;
+            background: #b5835a;
             border-radius: 15px;
             border: 1px solid #b5835a;
             overflow: hidden;
@@ -219,7 +219,7 @@
             <div class="book-container">
                 @foreach($books as $book)
                     <div class="book-card">
-                        <img src="{{ asset('images/' . $book->image) }}" alt="{{ $book->title }}">
+                        <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}">
                         <p>{{ $book->title }}</p>
                     </div>
                 @endforeach

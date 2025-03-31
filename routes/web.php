@@ -18,8 +18,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Group all authenticated routes
 Route::middleware('auth')->group(function () {
+    Route::get('/admin', function () {
+        return view('admin');
+    })->name('admin');
+    
+    // Group all authenticated routes
+
+    Route::post('/admin/books', [BookController::class, 'store'])->name('admin.books.store');
+    // Group all authenticated routes
 
     Route::get('/dashboard', [BookController::class, 'index'])->name('dashboard');
     Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
@@ -35,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/catalogs/{genre}', [CatalogController::class, 'show'])->name('genre.show')->middleware('auth'); // General catalog show route
     Route::get('/catalogs', [CatalogController::class, 'index'])->name('catalogs')->middleware('auth');
 
-    // New route for borrowing a book
+    Route::get('/genre/{id}', [BookController::class, 'show'])->name('genre.show'); // New route for displaying a specific genre
     Route::get('/books/borrow/{id}', [CatalogController::class, 'borrow'])->name('books.borrow');
     
     // Transaction route

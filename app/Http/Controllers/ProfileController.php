@@ -12,6 +12,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
+        Log::info('User instance type: ' . get_class($user)); // Debug statement
         $totalBooksBorrowed = $user->borrowings()->count();
         $currentlyBorrowed = $user->borrowings()->whereNull('returned_at')->count();
         $overdueBooks = $user->borrowings()->whereNull('returned_at')->where('due_date', '<', now())->count();
@@ -39,6 +40,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = Auth::user();
+        Log::info('User instance type: ' . get_class($user)); // Debug statement
 
         try {
             $request->validate([
@@ -50,13 +52,17 @@ class ProfileController extends Controller
             ]);
 
             $data = $request->only(['name', 'email', 'contact_no', 'address']);
+            if (!$user instanceof \App\Models\User) {
+                Log::error('User is not an instance of User model.');
+                return redirect()->back()->withErrors(['user' => 'User not found.']);
+            }
+            $data['profile_picture'] = $request->file('profile_picture') ? $request->file('profile_picture')->store('images', 'public') : null;
 
             if ($request->hasFile('profile_picture')) {
-                // Delete old picture if it exists and isn't the default
-                if ($user->profile_picture && $user->profile_picture !== 'images-1-10.png') {
+                // Delete old picture if it exists and isn't the default or null
+                if (isset($user->profile_picture) && $user->profile_picture && $user->profile_picture !== 'images-1-10.png') {
                     Storage::delete('public/images/' . $user->profile_picture);
                 }
-                $data['profile_picture'] = $request->file('profile_picture')->store('images', 'public');
             }
 
             $user->update($data);

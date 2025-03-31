@@ -62,13 +62,13 @@
         }
 
         .menu-button:hover {
-            color: #b5835a;
+            color: #121246;
         }
 
         /* Main content styles */
         .favorites-page {
             flex: 1;
-            background: #121246;
+            background: #f0f0e4;
             min-height: 100vh;
             padding-left: 0px;
             transition: padding-left 0.3s ease-in-out;
@@ -79,7 +79,7 @@
         }
 
         .rectangle-5 {
-            background: #d4a373;
+            background: #ded9c3;
             width: 100%;
             height: 80px;
             position: fixed;
@@ -136,7 +136,7 @@
 
         /* Favorites container */
         .favorites-content {
-            background: #d4a373;
+            background: #b5835a;
             border-radius: 24px;
             padding: 20px;
             margin: 0 20px 40px;

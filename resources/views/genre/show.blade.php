@@ -38,16 +38,15 @@
 
         /* Navigation (consistent with catalog-selection.blade.php) */
         .navigation {
-            width: 309px;
+            width: 250px;
+            background: #ded9c3;
             height: 100vh;
-            background: #121246;
             position: fixed;
-            left: -309px;
+            left: -250px; /* Hidden by default */
             top: 0;
             transition: left 0.3s ease-in-out;
             z-index: 10;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-            overflow-y: auto;
         }
 
         .navigation.active {
@@ -57,7 +56,7 @@
         /* Main content */
         .genre-page {
             flex: 1;
-            background: #121246;
+            background: #f0f0e4;
             min-height: 100vh;
             padding-left: 60px;
             transition: padding-left 0.3s ease-in-out;
@@ -85,7 +84,7 @@
         }
 
         .rectangle-5 {
-            background: #d4a373;
+            background: #ded9c3;
             width: 100%;
             height: 80px;
             position: fixed;

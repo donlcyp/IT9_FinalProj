@@ -68,7 +68,7 @@
         /* Main content styles */
         .catalog-selection-page {
             flex: 1;
-            background: #121246;
+            background: #f9f8f4;
             min-height: 100vh;
             padding-left: 0px;
             transition: padding-left 0.3s ease-in-out;
@@ -79,7 +79,7 @@
         }
 
         .rectangle-5 {
-            background: #d4a373;
+            background: #b5835a;
             width: 100%;
             height: 80px;
             position: fixed;
@@ -146,7 +146,7 @@
         }
 
         .genre-card {
-            background: #b5835a;
+            background: #ded9c3;
             border-radius: 12px;
             height: 86px;
             display: flex;
@@ -162,7 +162,7 @@
         }
 
         .genre-card a {
-            color: #000000;
+            color: #121246;
             text-align: center;
             font-family: "Inter-Regular", sans-serif;
             font-size: 20px;
@@ -188,11 +188,11 @@
             margin-bottom: 40px;
             font-family: "Inter-Regular", sans-serif;
             font-size: 14px;
-            color: #d4a373;
+            color: #ded9c3;
         }
 
         .pagination a, .pagination span {
-            color: #d4a373;
+            color: #121246;
             padding: 4px 8px;
             text-decoration: none;
             margin: 0 4px;
@@ -206,7 +206,7 @@
         }
 
         .pagination .current {
-            background-color: #b5835a;
+            background-color: #ded9c3;
             color: #121246;
             padding: 4px 8px;
             border-radius: 4px;

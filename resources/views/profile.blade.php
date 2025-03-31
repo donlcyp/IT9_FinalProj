@@ -68,7 +68,7 @@
         /* Main content styles */
         .profile-page {
             flex: 1;
-            background: #121246;
+            background: #f0f0e4;
             min-height: 100vh;
             padding-left: 0px;
             transition: padding-left 0.3s ease-in-out;
@@ -80,7 +80,7 @@
         }
 
         .rectangle-5 {
-            background: #d4a373;
+            background: #ded9c3;
             width: 100%;
             height: 80px;
             position: fixed;
@@ -103,7 +103,7 @@
 
         /* Profile content */
         .profile-content {
-            background: #d4a373;
+            background: #baba82;
             border-radius: 12px;
             width: 100%;
             max-width: 1203px;
@@ -143,7 +143,7 @@
             margin-top: 20px;
             width: 100%;
             max-width: 600px;
-            background: #c2a379;
+            background: #ded9c3;
             border-radius: 8px;
             padding: 20px;
             display: flex;
@@ -325,8 +325,7 @@
                     </div>
                 @endif
                 <!-- Debug output -->
-                <div style="color: #121246;">Profile picture path: {{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}</div>
-                <img class="images-1-1" src="{{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}" alt="Profile Picture" onerror="this.src='https://placehold.co/171x171';" />
+                <img src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('images/logo1.png') }}" alt="Profile Picture" class="images-1-1" style="display: block; margin: 0 auto;"/>
                 <div class="dreamy-bull">{{ Auth::user()->name }}</div>
                 <div class="profile-info">Contact: {{ Auth::user()->contact_no ?? 'Not provided' }}</div>
                 <div class="profile-info">Email: {{ Auth::user()->email }}</div>

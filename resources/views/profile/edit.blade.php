@@ -65,7 +65,7 @@
 
         .profile-page {
             flex: 1;
-            background: #121246;
+            background: #f0f0e4;
             min-height: 100vh;
             padding-left: 0px;
             transition: padding-left 0.3s ease-in-out;
@@ -77,7 +77,7 @@
         }
 
         .rectangle-5 {
-            background: #d4a373;
+            background: #ded9c3;
             width: 100%;
             height: 80px;
             position: fixed;
@@ -99,7 +99,7 @@
         }
 
         .profile-content {
-            background: #d4a373;
+            background: #baba82;
             border-radius: 12px;
             width: 100%;
             max-width: 1203px;
@@ -248,6 +248,15 @@
                 gap: 10px;
             }
         }
+        .images-1-1 {
+            border-radius: 85.5px;
+            width: 171px;
+            height: 171px;
+            object-fit: cover;
+            z-index: 5;
+            position: relative;
+            display: block; /* Ensure it’s visible */
+        }
     </style>
 </head>
 <body>
@@ -269,7 +278,7 @@
                     <!-- Profile Picture -->
                     <div class="form-group">
                         <label for="profile_picture">Profile Picture</label>
-                        <img src="{{ asset('images/' . (Auth::user()->profile_picture ?? 'images-1-10.png')) }}" alt="Current Profile Picture" class="profile-picture" />
+                        <img src="{{ Auth::user()->profile_picture ? asset('storage/' . Auth::user()->profile_picture) : asset('images/logo1.png') }}" alt="Profile Picture" class="images-1-1" style="display: block; margin: 0 auto;"/>
                         <input type="file" name="profile_picture" id="profile_picture" accept="image/*">
                         @error('profile_picture')
                             <span class="error-message">{{ $message }}</span>

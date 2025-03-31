@@ -30,7 +30,7 @@
             box-sizing: border-box;
         }
         .log-in-page {
-            background: #f9f8f4;
+            background: #f0f0e4;
             height: 1024px;
             position: relative;
             overflow: hidden;
@@ -179,9 +179,9 @@
         /* New logo class */
         .logo {
             position: absolute;
-            left: 50px;
-            top: 20px;
-            width: 100px;
+            left: 150px;
+            top: 315px;
+            width: 450px;
             height: auto;
             z-index: 3; /* Ensure it’s above other elements */
         }
