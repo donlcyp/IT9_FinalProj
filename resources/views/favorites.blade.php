@@ -82,11 +82,14 @@
             background: #ded9c3;
             width: 100%;
             height: 80px;
-            position: fixed;
+            position: fixed; /* Kept as fixed per original design */
             left: 0;
             top: 0;
             border-bottom: 2px solid #b5835a;
             z-index: 1;
+            display: flex; /* Added to center the favorites text */
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
         }
 
         .favorites {
@@ -95,8 +98,6 @@
             font-family: "Inter-Regular", sans-serif;
             font-size: 28px;
             font-weight: 600;
-            position: relative;
-            top: 25px;
             z-index: 2;
         }
 
@@ -265,8 +266,9 @@
             <button class="menu-button">
                 <span class="material-symbols-outlined">menu</span>
             </button>
-            <div class="rectangle-5"></div>
-            <div class="favorites">FAVORITES</div>
+            <div class="rectangle-5">
+                <div class="favorites">FAVORITES</div>
+            </div>
             <div class="search-container">
                 <div class="rectangle-7">
                     <input type="text" class="search-input" placeholder="Search favorites..." />

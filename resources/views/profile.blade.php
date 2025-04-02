@@ -48,19 +48,6 @@
             left: 0;
         }
 
-        .menu-button {
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            cursor: pointer;
-            z-index: 20;
-            color: #d4a373;
-            font-size: 28px;
-            background: transparent;
-            border: none;
-            transition: color 0.2s;
-        }
-
         .menu-button:hover {
             color: #b5835a;
         }
@@ -71,8 +58,10 @@
             background: #f0f0e4;
             min-height: 100vh;
             padding-left: 0px;
+            padding-top: 80px; /* Added to prevent overlap */
             transition: padding-left 0.3s ease-in-out;
-            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-y: auto;
+            position: relative;
         }
 
         .profile-page.nav-active {
@@ -83,11 +72,14 @@
             background: #ded9c3;
             width: 100%;
             height: 80px;
-            position: fixed;
+            position: fixed; /* Changed to fixed */
             left: 0;
             top: 0;
             border-bottom: 2px solid #b5835a;
             z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .profile {
@@ -96,9 +88,20 @@
             font-family: "Inter-Regular", sans-serif;
             font-size: 28px;
             font-weight: 600;
-            position: relative;
-            top: 25px;
             z-index: 2;
+        }
+
+        .menu-button {
+            position: absolute; /* Changed to absolute to stay within profile-page */
+            left: 20px;
+            top: 20px;
+            cursor: pointer;
+            z-index: 20;
+            color: #121246;
+            font-size: 28px;
+            background: transparent;
+            border: none;
+            transition: color 0.2s;
         }
 
         /* Profile content */
@@ -307,8 +310,9 @@
             <button class="menu-button">
                 <span class="material-symbols-outlined">menu</span>
             </button>
-            <div class="rectangle-5"></div>
-            <div class="profile">PROFILE</div>
+            <div class="rectangle-5">
+                <div class="profile">PROFILE</div>
+            </div>
             <div class="profile-content">
                 @if (session('success'))
                     <div class="alert alert-success">

@@ -79,14 +79,17 @@
         }
 
         .rectangle-5 {
-            background: #b5835a;
+            background: #ded9c3;
             width: 100%;
             height: 80px;
-            position: fixed;
+            position: fixed; /* Kept as fixed per original design */
             left: 0;
             top: 0;
             border-bottom: 2px solid #b5835a;
             z-index: 1;
+            display: flex; /* Added to center the catalogs text */
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
         }
 
         .catalogs {
@@ -95,8 +98,6 @@
             font-family: "Inter-Regular", sans-serif;
             font-size: 28px;
             font-weight: 600;
-            position: relative;
-            top: 25px;
             z-index: 2;
         }
 
@@ -146,7 +147,7 @@
         }
 
         .genre-card {
-            background: #ded9c3;
+            background: #b5835a;
             border-radius: 12px;
             height: 86px;
             display: flex;
@@ -307,8 +308,9 @@
             <button class="menu-button">
                 <span class="material-symbols-outlined">menu</span>
             </button>
-            <div class="rectangle-5"></div>
-            <div class="catalogs">CATALOGS</div>
+            <div class="rectangle-5">
+                <div class="catalogs">CATALOGS</div>
+            </div>
             <div class="search-container">
                 <form method="GET" action="{{ route('catalogs') }}" class="rectangle-7">
                     <input type="text" name="search" class="search-input" placeholder="Search genres..." value="{{ request('search') }}" />

@@ -58,7 +58,7 @@
             flex: 1;
             background: #f0f0e4;
             min-height: 100vh;
-            padding-left: 60px;
+            padding-left: 0px;
             transition: padding-left 0.3s ease-in-out;
             overflow-y: auto;
         }
@@ -87,11 +87,14 @@
             background: #ded9c3;
             width: 100%;
             height: 80px;
-            position: fixed;
+            position: fixed; /* Kept as fixed per original design */
             left: 0;
             top: 0;
             border-bottom: 2px solid #b5835a;
             z-index: 1;
+            display: flex; /* Added to center the genre-title text */
+            justify-content: center; /* Horizontally center */
+            align-items: center; /* Vertically center */
         }
 
         .genre-title {
@@ -100,8 +103,6 @@
             font-family: "Inter-Regular", sans-serif;
             font-size: 28px;
             font-weight: 600;
-            position: relative;
-            top: 25px;
             z-index: 2;
         }
 
@@ -228,8 +229,9 @@
             <button class="menu-button">
                 <span class="material-symbols-outlined">menu</span>
             </button>
-            <div class="rectangle-5"></div>
-            <div class="genre-title">{{ $genre->name }}</div>
+            <div class="rectangle-5">
+                <div class="genre-title">{{ $genre->name }}</div>
+            </div>
             <div class="search-container">
                 <form method="GET" action="{{ route('genre.show', $genre->id) }}">
                     <input type="text" name="search" class="rectangle-7" placeholder="Search books..." value="{{ request('search') }}">
