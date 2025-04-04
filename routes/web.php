@@ -50,6 +50,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/dashboard', [BookController::class, 'index'])->middleware(['auth'])->name('dashboard');
+    Route::get('/genre/{id}', [BookController::class, 'show'])->middleware(['auth'])->name('genre.show');
+    Route::get('/favorites', [BookController::class, 'favorites'])->middleware(['auth'])->name('favorites');
+
+    Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/books', [BookController::class, 'adminIndex'])->name('books.index');
+    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
+    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+    Route::patch('/books/{book}/toggle', [BookController::class, 'toggleStatus'])->name('books.toggle');
+});
 });
 
 require __DIR__.'/auth.php';

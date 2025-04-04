@@ -1,29 +1,36 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Genre; // Import the Genre model
+use App\Models\Genre;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        // Apply admin middleware only to specific methods
+        $this->middleware('admin')->only(['create', 'store', 'edit', 'update', 'toggleStatus']);
+    }
+
     public function index()
     {
         $books = Book::all();
         return view('dashboard', compact('books'));
     }
 
-    public function show($id) // Method to display a specific genre and its books
+    public function show($id)
     {
-        $genre = Genre::findOrFail($id); // Fetch the genre by ID
-        $books = $genre->books; // Fetch books associated with the genre
-        return view('genre.show', compact('genre', 'books')); // Pass both variables to the view
+        $genre = Genre::findOrFail($id);
+        $books = $genre->books;
+        return view('genre.show', compact('genre', 'books'));
     }
 
     public function create()
     {
-        $genres = Genre::all(); // Fetch all genres
-        return view('admin', compact('genres')); // Pass genres to the view
+        $genres = Genre::all();
+        return view('admin.books.create', compact('genres')); // Updated view path for clarity
     }
 
     public function store(Request $request)
@@ -32,11 +39,13 @@ class BookController extends Controller
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'genre_id' => 'required|exists:genres,id', // Added genre validation
         ]);
 
         $book = new Book();
         $book->title = $request->title;
         $book->author = $request->author;
+        $book->genre_id = $request->genre_id;
 
         if ($request->hasFile('cover_image')) {
             $book->cover_image = $request->file('cover_image')->store('covers', 'public');
@@ -44,12 +53,56 @@ class BookController extends Controller
 
         $book->save();
 
-        return redirect()->route('dashboard')->with('success', 'Book added successfully.');
+        return redirect()->route('admin.books.index')->with('success', 'Book added successfully.');
+    }
+
+    public function edit(Book $book)
+    {
+        $genres = Genre::all();
+        return view('admin.books.edit', compact('book', 'genres'));
+    }
+
+    public function update(Request $request, Book $book)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Nullable for updates
+            'genre_id' => 'required|exists:genres,id',
+            'is_borrowed' => 'boolean',
+        ]);
+
+        $book->title = $request->title;
+        $book->author = $request->author;
+        $book->genre_id = $request->genre_id;
+        $book->is_borrowed = $request->boolean('is_borrowed', $book->is_borrowed);
+
+        if ($request->hasFile('cover_image')) {
+            $book->cover_image = $request->file('cover_image')->store('covers', 'public');
+        }
+
+        $book->save();
+
+        return redirect()->route('admin.books.index')->with('success', 'Book updated successfully.');
+    }
+
+    public function toggleStatus(Book $book)
+    {
+        $book->is_borrowed = !$book->is_borrowed;
+        $book->save();
+        return redirect()->route('admin.books.index')->with('success', 'Book status updated.');
     }
 
     public function favorites()
     {
         $favorites = Book::where('is_favorite', true)->get();
         return view('favorites', compact('favorites'));
+    }
+
+    // Admin-specific index for the books table
+    public function adminIndex()
+    {
+        $books = Book::with('genre')->get();
+        return view('admin.books.index', compact('books'));
     }
 }
