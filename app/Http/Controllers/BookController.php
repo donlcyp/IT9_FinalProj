@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use App\Models\Book;
+use App\Models\BorrowedBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -104,5 +105,30 @@ class BookController extends Controller
     {
         $books = Book::with('genre')->get();
         return view('admin.books.index', compact('books'));
+    }
+
+    public function borrow(Request $request, Book $book)
+    {
+        // Check if the book is already borrowed by the user and not returned
+        $existingBorrow = BorrowedBook::where('book_id', $book->id)
+            ->where('user_id', Auth::id())
+            ->where('status', 'borrowed')
+            ->whereNull('returned_at')
+            ->first();
+
+        if ($existingBorrow) {
+            return redirect()->back()->with('error', 'You have already borrowed this book.');
+        }
+
+        // Create a new borrowing record
+        BorrowedBook::create([
+            'book_id' => $book->id,
+            'user_id' => Auth::id(),
+            'status' => 'borrowed',
+            'borrowed_at' => now(),
+            'due_date' => now()->addDays(14), // Set due date to 14 days from now
+        ]);
+
+        return redirect()->back()->with('success', 'Book borrowed successfully. Due date: ' . now()->addDays(14)->format('Y-m-d'));
     }
 }

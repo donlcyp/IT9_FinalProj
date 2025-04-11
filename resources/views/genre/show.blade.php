@@ -38,15 +38,16 @@
 
         /* Navigation (consistent with catalog-selection.blade.php) */
         .navigation {
-            width: 250px;
-            background: #ded9c3;
+            width: 309px;
             height: 100vh;
+            background: #121246;
             position: fixed;
-            left: -250px; /* Hidden by default */
+            left: -309px;
             top: 0;
             transition: left 0.3s ease-in-out;
             z-index: 10;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
         }
 
         .navigation.active {
@@ -56,9 +57,9 @@
         /* Main content */
         .genre-page {
             flex: 1;
-            background: #f0f0e4;
+            background: #121246;
             min-height: 100vh;
-            padding-left: 0px;
+            padding-left: 60px;
             transition: padding-left 0.3s ease-in-out;
             overflow-y: auto;
         }
@@ -84,17 +85,14 @@
         }
 
         .rectangle-5 {
-            background: #ded9c3;
+            background: #d4a373;
             width: 100%;
             height: 80px;
-            position: fixed; /* Kept as fixed per original design */
+            position: fixed;
             left: 0;
             top: 0;
             border-bottom: 2px solid #b5835a;
             z-index: 1;
-            display: flex; /* Added to center the genre-title text */
-            justify-content: center; /* Horizontally center */
-            align-items: center; /* Vertically center */
         }
 
         .genre-title {
@@ -103,6 +101,8 @@
             font-family: "Inter-Regular", sans-serif;
             font-size: 28px;
             font-weight: 600;
+            position: relative;
+            top: 25px;
             z-index: 2;
         }
 
@@ -149,6 +149,11 @@
             padding: 0 20px;
         }
 
+        .book-item {
+            position: relative;
+            text-align: center;
+        }
+
         .book-item img {
             width: 100%;
             height: auto;
@@ -156,10 +161,86 @@
             object-fit: cover;
             aspect-ratio: 3/4;
             transition: transform 0.2s ease;
+            cursor: pointer;
         }
 
         .book-item img:hover {
             transform: scale(1.05);
+        }
+
+        .book-item .borrow-form {
+            margin-top: 10px;
+        }
+
+        .book-item .borrow-button {
+            padding: 5px 10px;
+            background: #d4a373;
+            color: #121246;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .book-item .borrow-button:hover {
+            background: #b5835a;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #d4a373;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #b5835a;
+        }
+
+        /* Success/Error Messages */
+        .success-message, .error-message {
+            text-align: center;
+            padding: 10px;
+            margin: 10px auto;
+            border-radius: 4px;
+            max-width: 500px;
+        }
+
+        .success-message {
+            background: #b5835a;
+            color: #121246;
+        }
+
+        .error-message {
+            background: #ff6b6b;
+            color: #fff;
         }
 
         /* Responsive adjustments */
@@ -189,6 +270,11 @@
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
                 gap: 15px;
             }
+
+            .book-item .borrow-button {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -214,6 +300,17 @@
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
                 gap: 10px;
             }
+
+            .book-item .borrow-button {
+                font-size: 10px;
+                padding: 3px 6px;
+            }
+
+            .modal-close {
+                font-size: 28px;
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
@@ -229,9 +326,8 @@
             <button class="menu-button">
                 <span class="material-symbols-outlined">menu</span>
             </button>
-            <div class="rectangle-5">
-                <div class="genre-title">{{ $genre->name }}</div>
-            </div>
+            <div class="rectangle-5"></div>
+            <div class="genre-title">{{ $genre->name }}</div>
             <div class="search-container">
                 <form method="GET" action="{{ route('genre.show', $genre->id) }}">
                     <input type="text" name="search" class="rectangle-7" placeholder="Search books..." value="{{ request('search') }}">
@@ -240,12 +336,24 @@
                     </button>
                 </form>
             </div>
+            @if (session('success'))
+                <div class="success-message">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="error-message">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="book-grid">
                 @forelse ($books as $book)
                     <div class="book-item">
-                        <a href="{{ route('books.borrow', ['id' => $book->id]) }}">
-                            <img src="{{ asset($book->cover_image) }}" alt="{{ $book->title }}">
-                        </a>
+                        <img src="{{ asset($book->cover_image) }}" alt="{{ $book->title }}" class="book-image" data-image="{{ asset($book->cover_image) }}">
+                        <form action="{{ route('books.borrow', $book) }}" method="POST" class="borrow-form">
+                            @csrf
+                            <button type="submit" class="borrow-button">Borrow</button>
+                        </form>
                     </div>
                 @empty
                     <div class="text-center text-gray-400">No books found in this genre.</div>
@@ -254,15 +362,46 @@
         </div>
     </div>
 
+    <!-- Modal for image viewing -->
+    <div class="modal" id="imageModal">
+        <span class="modal-close">×</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const menuButton = document.querySelector('.menu-button');
             const navigation = document.querySelector('.navigation');
             const genrePage = document.querySelector('.genre-page');
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalClose = document.querySelector('.modal-close');
+            const bookImages = document.querySelectorAll('.book-image');
 
+            // Toggle navigation
             menuButton.addEventListener('click', function() {
                 navigation.classList.toggle('active');
                 genrePage.classList.toggle('nav-active');
+            });
+
+            // Open modal when clicking on a book image
+            bookImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    modal.style.display = 'flex';
+                    modalImage.src = this.getAttribute('data-image');
+                });
+            });
+
+            // Close modal when clicking the close button
+            modalClose.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
             });
         });
     </script>

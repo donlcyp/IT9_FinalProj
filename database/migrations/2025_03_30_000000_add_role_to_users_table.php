@@ -6,23 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 class AddRoleToUsersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user'); // Adding role column with default value 'user'
+            $table->enum('role', ['admin', 'user'])->default('user')->after('email');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role'); // Dropping the role column
+            $table->dropColumn('role');
         });
     }
 }

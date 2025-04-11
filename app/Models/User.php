@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Borrowing; // Import the Borrowing model
 
 class User extends Authenticatable
 {
@@ -21,9 +20,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'contact_no', // Add this line
-        'address',    // Add this line
-        'profile_picture', // Add this line
+        'contact_no',
+        'address',
+        'profile_picture',
+        'role', // Added for admin/user differentiation
     ];
 
     /**
@@ -50,10 +50,27 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the borrowings for the user.
+     * Get the borrowed books for the user.
      */
-    public function borrowings()
+    public function borrowedBooks()
     {
-        return $this->hasMany(Borrowing::class);
+        return $this->hasMany(BorrowedBook::class);
     }
+    
+    // app/Models/User.php
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+    
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
 }

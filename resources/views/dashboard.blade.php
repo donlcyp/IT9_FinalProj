@@ -1,3 +1,4 @@
+<!-- resources/views/dashboard.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,7 +101,7 @@
         }
 
         /* Section headers */
-        .trending, .trending2, .trending3 {
+        .trending, .trending2, .trending3, .borrowed-books {
             color: #121246;
             font-family: "Inter-Regular", sans-serif;
             font-size: 24px;
@@ -154,6 +155,49 @@
             text-overflow: ellipsis;
         }
 
+        /* Borrowed books table styles */
+        .borrowed-table {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: #ded9c3;
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .borrowed-table th, .borrowed-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #b5835a;
+        }
+
+        .borrowed-table th {
+            background: #d4a373;
+            color: #121246;
+            font-weight: 600;
+        }
+
+        .borrowed-table td {
+            color: #121246;
+        }
+
+        .overdue {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .overdue-notice {
+            background: #ff6b6b;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 1100px;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .home-page {
@@ -168,7 +212,7 @@
                 font-size: 22px;
             }
 
-            .trending, .trending2, .trending3 {
+            .trending, .trending2, .trending3, .borrowed-books {
                 font-size: 20px;
             }
 
@@ -187,6 +231,11 @@
             .book-card p {
                 font-size: 12px;
             }
+
+            .borrowed-table th, .borrowed-table td {
+                padding: 8px;
+                font-size: 14px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -201,6 +250,11 @@
             .menu-button {
                 left: 10px;
                 top: 15px;
+            }
+
+            .borrowed-table th, .borrowed-table td {
+                padding: 6px;
+                font-size: 12px;
             }
         }
     </style>
@@ -217,22 +271,47 @@
             <div class="rectangle-5">
                 <div class="home-title">DASHBOARD</div>
             </div>
+
+            @if($overdueCount > 0)
+                <div class="overdue-notice">
+                    You have {{ $overdueCount }} overdue book(s)! Please return them as soon as possible.
+                </div>
+            @endif
+
             <div class="trending">Trending</div>
             <div class="book-container">
-                @foreach($books as $book)
+                @forelse($books as $book)
                     <div class="book-card">
                         <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}">
                         <p>{{ $book->title }}</p>
                     </div>
-                @endforeach
+                @empty
+                    <p style="color: #121246; padding: 20px;">No trending books available.</p>
+                @endforelse
             </div>
+
             <div class="trending2">Top Books</div>
             <div class="book-container">
-                <!-- Add books here -->
+                @forelse($topBooks as $book)
+                    <div class="book-card">
+                        <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}">
+                        <p>{{ $book->title }}</p>
+                    </div>
+                @empty
+                    <p style="color: #121246; padding: 20px;">No top books available.</p>
+                @endforelse
             </div>
+
             <div class="trending3">Most Read</div>
             <div class="book-container">
-                <!-- Add books here -->
+                @forelse($mostReadBooks as $book)
+                    <div class="book-card">
+                        <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}">
+                        <p>{{ $book->title }}</p>
+                    </div>
+                @empty
+                    <p style="color: #121246; padding: 20px;">No most read books available.</p>
+                @endforelse
             </div>
         </div>
     </div>
