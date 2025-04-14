@@ -349,7 +349,9 @@
             <div class="book-grid">
                 @forelse ($books as $book)
                     <div class="book-item">
-                        <img src="{{ asset($book->cover_image) }}" alt="{{ $book->title }}" class="book-image" data-image="{{ asset($book->cover_image) }}">
+                        <a href="{{ route('books.show', $book->id) }}">
+                            <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}" class="book-image">
+                        </a>
                         <form action="{{ route('books.borrow', $book) }}" method="POST" class="borrow-form">
                             @csrf
                             <button type="submit" class="borrow-button">Borrow</button>
@@ -362,46 +364,23 @@
         </div>
     </div>
 
-    <!-- Modal for image viewing -->
-    <div class="modal" id="imageModal">
+    <!-- Remove modal since we're redirecting instead of showing a modal -->
+    <!-- Modal for image viewing is no longer needed -->
+    <!-- <div class="modal" id="imageModal">
         <span class="modal-close">×</span>
         <img class="modal-content" id="modalImage">
-    </div>
+    </div> -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const menuButton = document.querySelector('.menu-button');
             const navigation = document.querySelector('.navigation');
             const genrePage = document.querySelector('.genre-page');
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            const modalClose = document.querySelector('.modal-close');
-            const bookImages = document.querySelectorAll('.book-image');
 
             // Toggle navigation
             menuButton.addEventListener('click', function() {
                 navigation.classList.toggle('active');
                 genrePage.classList.toggle('nav-active');
-            });
-
-            // Open modal when clicking on a book image
-            bookImages.forEach(image => {
-                image.addEventListener('click', function() {
-                    modal.style.display = 'flex';
-                    modalImage.src = this.getAttribute('data-image');
-                });
-            });
-
-            // Close modal when clicking the close button
-            modalClose.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside the image
-            modal.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
             });
         });
     </script>

@@ -111,7 +111,7 @@
     <div class="form-container">
         <a href="{{ route('admin.index') }}" class="back-btn">Back to Dashboard</a>
         <h2>Edit Book</h2>
-        <form action="{{ route('admin.books.update', $book) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.update', $book) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -133,7 +133,7 @@
                 <input type="file" name="cover_image" id="cover_image">
                 <div class="current-image">
                     <p>Current Image:</p>
-                    <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}">
+                    <img src="{{ asset($book->cover_image) }}" alt="{{ $book->title }}">
                 </div>
                 @error('cover_image')
                     <div class="error">{{ $message }}</div>

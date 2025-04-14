@@ -51,28 +51,22 @@ class ProfileController extends Controller
                 'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
             ]);
 
+            $data = $request->only(['name', 'email', 'contact_no', 'address']);
             if (!$user instanceof \App\Models\User) {
                 Log::error('User is not an instance of User model.');
                 return redirect()->back()->withErrors(['user' => 'User not found.']);
             }
+            $data['profile_picture'] = $request->file('profile_picture') ? $request->file('profile_picture')->store('images', 'public') : null;
 
-            // Prepare data to update
-            $data = $request->only(['name', 'email', 'contact_no', 'address']);
-
-            // Handle profile picture only if a new file is uploaded
             if ($request->hasFile('profile_picture')) {
-                // Delete old picture if it exists and isn't the default
-                if ($user->profile_picture && $user->profile_picture !== 'images-1-10.png') {
+                // Delete old picture if it exists and isn't the default or null
+                if (isset($user->profile_picture) && $user->profile_picture && $user->profile_picture !== 'images-1-10.png') {
                     Storage::delete('public/images/' . $user->profile_picture);
                 }
-                // Store the new profile picture
-                $data['profile_picture'] = $request->file('profile_picture')->store('images', 'public');
             }
 
-            // Update the user with the data
             $user->update($data);
-            Log::info('Profile updated. Profile picture: ' . ($data['profile_picture'] ?? $user->profile_picture));
-
+            Log::info('Profile picture updated: ' . $data['profile_picture']);
             return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
