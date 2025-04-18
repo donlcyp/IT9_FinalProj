@@ -60,6 +60,8 @@ class AdminController extends Controller
             $request->validate([
                 'title' => 'required|string|max:255',
                 'author' => 'nullable|string|max:255',
+                'publisher' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
                 'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'genre_id' => 'required|exists:genres,id',
             ]);
@@ -69,6 +71,8 @@ class AdminController extends Controller
             Book::create([
                 'title' => $request->title,
                 'author' => $request->author,
+                'publisher' => $request->publisher,
+                'description' => $request->description,
                 'cover_image' => $coverImagePath,
                 'genre_id' => $request->genre_id,
             ]);

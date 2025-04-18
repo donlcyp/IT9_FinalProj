@@ -133,25 +133,43 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="cover_image">Cover Image</label>
-                <input type="file" name="cover_image" id="cover_image">
-                @error('cover_image')
+                <label for="publisher">Publisher</label>
+                <input type="text" name="publisher" id="publisher" value="{{ old('publisher') }}">
+                @error('publisher')
                     <div class="error">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="form-group">
-                <label for="genre_id">Genre</label>
-                <select name="genre_id" id="genre_id">
-                    @foreach ($genres as $genre)
-                        <option value="{{ $genre->id }}" {{ old('genre_id') == $genre->id ? 'selected' : '' }}>
-                            {{ $genre->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('genre_id')
-                    <div class="error">{{ $message }}</div>
-                @enderror
+
+            <div class="container-group">
+                <div class="form-group description-group">
+                    <label for="description">Book Description</label>
+                    <textarea name="description" id="description" rows="8" style="width: 100%; color: #121246;">{{ old('description') }}</textarea>
+                    @error('description')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group cover-image-group">
+                    <label for="cover_image">Cover Image</label>
+                    <input type="file" name="cover_image" id="cover_image">
+                    @error('cover_image')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group genre-group">
+                    <label for="genre_id">Genre</label>
+                    <select name="genre_id" id="genre_id">
+                        @foreach ($genres as $genre)
+                            <option value="{{ $genre->id }}" {{ old('genre_id') == $genre->id ? 'selected' : '' }}>
+                                {{ $genre->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('genre_id')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
+
             <button type="submit" class="submit-btn">Add Book</button>
         </form>
     </div>

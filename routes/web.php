@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     // Book routes
     Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show'); // For description.blade.php
     Route::post('/books/borrow/{book}', [BookController::class, 'borrow'])->name('books.borrow');
+    Route::post('/books/{id}/rate', [BookController::class, 'rateBook'])->name('books.rate');
 
     // Favorites routes
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites');
@@ -55,7 +56,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [AdminController::class, 'store'])->name('admin.store');
         Route::get('/edit/{book}', [AdminController::class, 'edit'])->name('admin.edit');
         Route::put('/update/{book}', [AdminController::class, 'update'])->name('admin.update');
-        Route::put('/borrow-status/{borrowedBook}', [AdminController::class, 'updateBorrowStatus'])->name('admin.borrowed.update');
+        Route::put('/borrow-status/{borrowedBook}', [AdminController::class, 'updateBorrowStatus'])->name('admin.updateBorrowStatus');
         Route::post('/mark-as-paid/{borrowedBook}', [AdminController::class, 'markAsPaid'])->name('admin.markAsPaid');
         Route::get('/adjust-stock/{book}', [AdminController::class, 'adjustStock'])->name('admin.adjustStock');
         Route::post('/update-stock/{book}', [AdminController::class, 'updateStock'])->name('admin.updateStock');

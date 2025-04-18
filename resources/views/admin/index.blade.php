@@ -151,6 +151,7 @@
                         <td>
                             <form action="{{ route('admin.updateBorrowStatus', $borrowedBook) }}" method="POST" style="display:inline;">
                                 @csrf
+                                @method('PUT')
                                 <select name="status" onchange="this.form.submit()">
                                     <option value="borrowed" {{ $borrowedBook->status == 'borrowed' ? 'selected' : '' }}>Borrowed</option>
                                     <option value="returned" {{ $borrowedBook->status == 'returned' ? 'selected' : '' }}>Returned</option>

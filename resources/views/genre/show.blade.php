@@ -38,9 +38,8 @@
 
         /* Navigation (consistent with catalog-selection.blade.php) */
         .navigation {
-            width: 309px;
+            width: 250px;
             height: 100vh;
-            background: #121246;
             position: fixed;
             left: -309px;
             top: 0;
@@ -57,9 +56,9 @@
         /* Main content */
         .genre-page {
             flex: 1;
-            background: #121246;
+            background: #f9f8f4;
             min-height: 100vh;
-            padding-left: 60px;
+            padding-left: 0px;
             transition: padding-left 0.3s ease-in-out;
             overflow-y: auto;
         }
@@ -74,7 +73,7 @@
             top: 20px;
             cursor: pointer;
             z-index: 20;
-            color: #ffffff;
+            color: #121246;
             font-size: 28px;
             background: transparent;
             transition: color 0.2s;
@@ -84,8 +83,93 @@
             color: #b5835a;
         }
 
+        /* Book card styles similar to dashboard */
+        .book-card {
+            width: 100%;
+            height: 300px; /* Increased to accommodate quantity and button */
+            background: #b5835a;
+            border-radius: 15px;
+            border: 1px solid #b5835a;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .book-card .book-info {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .book-card p {
+            color: #121246;
+            font-family: "Inter-Regular", sans-serif;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 5px;
+        }
+
+        .book-card .quantity {
+            color: #fff;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .book-card .action-button {
+            background: #121246;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .book-card .action-button:hover {
+            background: #1e2a78;
+        }
+
+        .book-card .out-of-stock {
+            color: #ff6b6b;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .book-card {
+                height: 250px;
+            }
+
+            .book-card img {
+                height: 130px;
+            }
+
+            .book-card p {
+                font-size: 12px;
+            }
+
+            .book-card .quantity, .book-card .action-button, .book-card .out-of-stock {
+                font-size: 10px;
+            }
+        }
+
         .rectangle-5 {
-            background: #d4a373;
+            background: #ded9c3;
             width: 100%;
             height: 80px;
             position: fixed;
@@ -348,14 +432,33 @@
             @endif
             <div class="book-grid">
                 @forelse ($books as $book)
-                    <div class="book-item">
+                    <div class="book-card">
                         <a href="{{ route('books.show', $book->id) }}">
-                            <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}" class="book-image">
+                            <img src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}">
                         </a>
-                        <form action="{{ route('books.borrow', $book) }}" method="POST" class="borrow-form">
-                            @csrf
-                            <button type="submit" class="borrow-button">Borrow</button>
-                        </form>
+                        <div class="book-info">
+                            <a href="{{ route('books.show', $book->id) }}">
+                                <p>{{ $book->title }}</p>
+                            </a>
+                            <div style="display: flex; align-items: center; gap: 5px; color: #ffca08; font-size: 18px; margin-bottom: 5px;">
+                                @php
+                                    $roundedRating = round($book->average_rating);
+                                @endphp
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $roundedRating)
+                                        <span class="fa fa-star checked"></span>
+                                    @else
+                                        <span class="fa fa-star"></span>
+                                    @endif
+                                @endfor
+                                <span style="color: #121246; font-size: 14px; margin-left: 8px;">({{ number_format($book->average_rating, 2) }}/5)</span>
+                            </div>
+                            @if($book->quantity > 0)
+                                <span class="quantity">Available: {{ $book->quantity }}</span>
+                            @else
+                                <span class="out-of-stock">Out of Stock</span>
+                            @endif
+                        </div>
                     </div>
                 @empty
                     <div class="text-center text-gray-400">No books found in this genre.</div>
