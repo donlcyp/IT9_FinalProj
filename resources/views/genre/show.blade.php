@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $genre->name }} - Grand Archives</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @vite(['resources/css/app.css'])
 
     <style>
@@ -440,7 +441,7 @@
                             <a href="{{ route('books.show', $book->id) }}">
                                 <p>{{ $book->title }}</p>
                             </a>
-                            <div style="display: flex; align-items: center; gap: 5px; color: #ffca08; font-size: 18px; margin-bottom: 5px;">
+                            <div style="display: flex; align-items: center; gap: 5px; color: #ffca08; font-size: 12px; margin-bottom: 5px;">
                                 @php
                                     $roundedRating = round($book->average_rating);
                                 @endphp

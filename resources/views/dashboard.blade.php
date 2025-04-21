@@ -395,7 +395,6 @@
                 @if($book->quantity > 0)
                     <form action="{{ route('dashboard.borrow', $book) }}" method="POST" style="display:inline;">
                         @csrf
-                        <button type="submit" class="action-button">Borrow</button>
                     </form>
                 @else
                     <span class="out-of-stock">Out of Stock</span>
@@ -436,8 +435,7 @@
                 @if($book->quantity > 0)
                     <form action="{{ route('dashboard.borrow', $book) }}" method="POST" style="display:inline;">
                         @csrf
-                        <button type="submit" class="action-button">Borrow</button>
-                    </form>
+                        </form>
                 @else
                     <span class="out-of-stock">Out of Stock</span>
                 @endif

@@ -33,10 +33,18 @@ class BookController extends Controller
     public function showGenre($id)
     {
         $genre = Genre::findOrFail($id);
-        $books = $genre->books()->when(request('search'), function ($query, $search) {
+        $books = $genre->books()->with('ratings')->when(request('search'), function ($query, $search) {
             return $query->where('title', 'like', "%{$search}%")
                         ->orWhere('author', 'like', "%{$search}%");
         })->get();
+
+        // Add average_rating and rating_count attribute to each book
+        $books->map(function ($book) {
+            $book->average_rating = $book->ratings->avg('rating') ?? 0;
+            $book->rating_count = $book->ratings->count();
+            return $book;
+        });
+
         return view('genre.show', compact('genre', 'books'));
     }
 
